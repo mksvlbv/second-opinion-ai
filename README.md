@@ -24,7 +24,7 @@ Second Opinion AI turns patient-described symptoms into structured clinical brie
 ## Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/mockup-hero.png" alt="Landing Page" width="100%" />
+  <img src="docs/screenshots/hero-anim.gif" alt="Landing Page — Entropy Animation" width="100%" />
 </p>
 
 <p align="center">
