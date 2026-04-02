@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://second-opinion-ai.vercel.app"),
+  metadataBase: new URL("https://second-opinion-ai-dusky.vercel.app"),
   title: "Second Opinion AI | Clarity when you need it most",
   description: "Double-check medical diagnoses using structured case analysis and expert-level reasoning.",
   openGraph: {

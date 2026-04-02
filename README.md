@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>AI-powered clinical reasoning framework for structuring complex medical histories.</strong><br><br>
-  <a href="https://second-opinion-ai.vercel.app">Live Demo</a> · <a href="#what-it-does">What It Does</a> · <a href="#architecture">Architecture</a> · <a href="#getting-started">Getting Started</a> · <a href="docs/showcase.html">Product Showcase</a>
+  <a href="https://second-opinion-ai-dusky.vercel.app">Live Demo</a> · <a href="#what-it-does">What It Does</a> · <a href="#architecture">Architecture</a> · <a href="#getting-started">Getting Started</a> · <a href="docs/showcase.html">Product Showcase</a>
 </p>
 
 <p align="center">
