@@ -21,6 +21,19 @@ Second Opinion AI turns patient-described symptoms into structured clinical brie
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/mockup-hero.png" alt="Landing Page" width="100%" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/mockup-start.png" alt="Multi-Step Intake" width="49%" />
+  <img src="docs/screenshots/mockup-result.png" alt="Sample Clinical Brief" width="49%" />
+</p>
+
+---
+
 ## What It Does
 
 1. **Multi-step intake** — Guided onboarding collects symptoms, prior findings, and patient focus areas
