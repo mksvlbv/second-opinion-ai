@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <strong>AI-powered clinical reasoning framework for structuring complex medical histories.</strong><br>
-  <a href="https://second-opinion-ai.vercel.app">Live Demo</a> · <a href="#architecture">Architecture</a> · <a href="#getting-started">Getting Started</a>
+  <strong>AI-powered clinical reasoning framework for structuring complex medical histories.</strong><br><br>
+  <a href="https://second-opinion-ai.vercel.app">Live Demo</a> · <a href="#what-it-does">What It Does</a> · <a href="#architecture">Architecture</a> · <a href="#getting-started">Getting Started</a> · <a href="docs/showcase.html">Product Showcase</a>
 </p>
 
 <p align="center">
@@ -92,12 +92,21 @@ npm run dev
 npm run build
 ```
 
-## Deployment (Vercel)
+## Deployment
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmksvlbv%2Fsecond-opinion-ai&env=OPENAI_API_KEY&envDescription=OpenAI%20API%20key%20for%20clinical%20reasoning&project-name=second-opinion-ai)
+
+Or manually:
 1. Push to GitHub
-2. Import project in Vercel
+2. Import project in [Vercel](https://vercel.com)
 3. Add `OPENAI_API_KEY` as environment variable
 4. Deploy
+
+---
+
+## License
+
+MIT
 
 ---
 
