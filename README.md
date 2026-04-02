@@ -1,10 +1,23 @@
-# Second Opinion AI
+<p align="center">
+  <img src="docs/banner.svg" alt="Second Opinion AI" width="100%" />
+</p>
 
-**AI-powered clinical reasoning framework for structuring complex medical histories.**
+<p align="center">
+  <strong>AI-powered clinical reasoning framework for structuring complex medical histories.</strong><br>
+  <a href="https://second-opinion-ai.vercel.app">Live Demo</a> · <a href="#architecture">Architecture</a> · <a href="#getting-started">Getting Started</a>
+</p>
 
-Second Opinion AI is a functional prototype that brings clarity to conflicting medical opinions. It uses GPT-4o mini to synthesize patient-provided symptoms into structured clinical briefs — identifying patterns, suggesting differential diagnoses, and generating targeted questions for physicians.
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19-blue?logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?logo=openai" alt="OpenAI" />
+  <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript" alt="TypeScript" />
+</p>
 
-[View Live Demo](https://second-opinion-ai.vercel.app)
+---
+
+Second Opinion AI turns patient-described symptoms into structured clinical briefs — identifying patterns, suggesting differential diagnoses, and generating targeted questions for physicians.
 
 ---
 

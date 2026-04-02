@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second Opinion AI — Showcase</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: #0a0a0a;
+    color: white;
+    overflow: hidden;
+    width: 1280px;
+    height: 720px;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    padding: 60px;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Slide 1: Title */
+  .slide-1 { background: #fafafa; color: #1a1a1a; }
+  .slide-1 .brand-dot {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 3px solid #2c3e34; display: flex;
+    align-items: center; justify-content: center;
+    margin-bottom: 32px;
+  }
+  .slide-1 .brand-dot::after {
+    content: ''; width: 6px; height: 6px;
+    border-radius: 50%; background: #2c3e34;
+  }
+  .slide-1 h1 {
+    font-size: 64px; font-weight: 600;
+    letter-spacing: -3px; margin-bottom: 16px;
+  }
+  .slide-1 p {
+    font-size: 24px; color: #666; font-weight: 300;
+    margin-bottom: 40px;
+  }
+  .pills {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+  }
+  .pill {
+    padding: 8px 20px; border-radius: 20px;
+    background: rgba(44,62,52,0.08); color: #2c3e34;
+    font-size: 13px; font-weight: 500;
+    font-family: ui-monospace, monospace;
+  }
+
+  /* Slide 2: Problem */
+  .slide-2 { background: #fafafa; color: #1a1a1a; }
+  .slide-2 .quote {
+    font-size: 40px; font-weight: 500; font-style: italic;
+    font-family: 'Times New Roman', serif; text-align: center;
+    max-width: 800px; line-height: 1.3; letter-spacing: -1px;
+    border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;
+    padding: 48px 0;
+  }
+
+  /* Slide 3: How it works */
+  .slide-3 { background: #fafafa; color: #1a1a1a; align-items: flex-start; padding: 80px 120px; }
+  .slide-3 h2 {
+    font-size: 48px; font-weight: 600; letter-spacing: -2px;
+    margin-bottom: 60px;
+  }
+  .steps {
+    display: flex; flex-direction: column; gap: 40px; width: 100%;
+  }
+  .step {
+    display: flex; align-items: flex-start; gap: 32px;
+    opacity: 0; transform: translateX(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .step.visible { opacity: 1; transform: translateX(0); }
+  .step-num {
+    font-size: 48px; font-weight: 300; color: #737373;
+    font-family: ui-monospace, monospace; min-width: 60px;
+  }
+  .step-content h3 { font-size: 28px; font-weight: 600; margin-bottom: 8px; letter-spacing: -1px; }
+  .step-content p { font-size: 18px; color: #666; font-weight: 300; line-height: 1.5; max-width: 700px; }
+
+  /* Slide 4: AI Analysis mockup */
+  .slide-4 { background: #fafafa; color: #1a1a1a; padding: 60px; }
+  .mockup-card {
+    background: white; border-radius: 24px; padding: 48px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.06);
+    max-width: 800px; width: 100%;
+  }
+  .mockup-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 4px; color: #999; margin-bottom: 12px;
+  }
+  .mockup-title {
+    font-size: 36px; font-weight: 600; letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  .mockup-conf {
+    display: inline-block; padding: 6px 16px; border-radius: 8px;
+    background: rgba(44,62,52,0.08); color: #2c3e34;
+    font-size: 13px; font-weight: 600; margin-bottom: 32px;
+  }
+  .mockup-obs {
+    display: flex; flex-direction: column; gap: 12px;
+    border-top: 1px solid #f0f0f0; padding-top: 24px;
+  }
+  .mockup-obs-item {
+    font-size: 16px; color: #444; font-weight: 300;
+    padding-left: 16px; border-left: 2px solid #2c3e34;
+    opacity: 0; transform: translateX(-10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .mockup-obs-item.visible { opacity: 1; transform: translateX(0); }
+
+  /* Slide 5: CTA */
+  .slide-5 { background: #1a1a1a; }
+  .slide-5 h2 {
+    font-size: 56px; font-weight: 600; letter-spacing: -3px;
+    margin-bottom: 24px; text-align: center;
+  }
+  .slide-5 .dim { color: #666; }
+  .slide-5 p { font-size: 22px; color: #a3a3a3; font-weight: 300; margin-bottom: 48px; }
+  .cta-btn {
+    background: white; color: #1a1a1a; border: none;
+    padding: 20px 56px; font-size: 24px; font-weight: 700;
+    border-radius: 50px; cursor: pointer;
+    box-shadow: 0 0 60px rgba(255,255,255,0.08);
+  }
+
+  /* Progress bar */
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 3px;
+    background: #2c3e34; transition: width 0.3s ease;
+    z-index: 100;
+  }
+
+  /* Slide counter */
+  .counter {
+    position: fixed; bottom: 20px; right: 40px;
+    font-size: 12px; color: rgba(255,255,255,0.3);
+    font-family: ui-monospace, monospace; z-index: 100;
+    mix-blend-mode: difference;
+  }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide slide-1 active" id="s1">
+  <div class="brand-dot"></div>
+  <h1>Second Opinion AI</h1>
+  <p>Structured clinical reasoning when medical opinions conflict.</p>
+  <div class="pills">
+    <span class="pill">Next.js 16</span>
+    <span class="pill">React 19</span>
+    <span class="pill">GPT-4o mini</span>
+    <span class="pill">Tailwind CSS</span>
+    <span class="pill">TypeScript</span>
+    <span class="pill">Vercel</span>
+  </div>
+</div>
+
+<!-- Slide 2: Problem -->
+<div class="slide slide-2" id="s2">
+  <div class="quote">
+    "Three specialists gave me three different answers.<br>
+    I didn't know who to trust or what to do next."
+  </div>
+</div>
+
+<!-- Slide 3: How it works -->
+<div class="slide slide-3" id="s3">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step" id="step1">
+      <span class="step-num">01</span>
+      <div class="step-content">
+        <h3>Describe your symptoms</h3>
+        <p>Guided multi-step intake collects symptoms, prior findings, and focus areas.</p>
+      </div>
+    </div>
+    <div class="step" id="step2">
+      <span class="step-num">02</span>
+      <div class="step-content">
+        <h3>AI analyzes your case</h3>
+        <p>GPT-4o mini generates structured clinical reasoning in real-time.</p>
+      </div>
+    </div>
+    <div class="step" id="step3">
+      <span class="step-num">03</span>
+      <div class="step-content">
+        <h3>Get your clinical brief</h3>
+        <p>Summary, observations, differential interpretation, and physician questions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: AI Result mockup -->
+<div class="slide slide-4" id="s4">
+  <div class="mockup-card">
+    <div class="mockup-label">Clinical Case Brief</div>
+    <div class="mockup-title">Potential systemic clinical driver.</div>
+    <div class="mockup-conf">High Alignment</div>
+    <div class="mockup-obs">
+      <div class="mockup-obs-item" id="obs1">Symptoms involve unrelated body systems.</div>
+      <div class="mockup-obs-item" id="obs2">Duration exceeds typical acute recovery timelines.</div>
+      <div class="mockup-obs-item" id="obs3">Progression continued despite rest and interventions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: CTA -->
+<div class="slide slide-5" id="s5">
+  <h2>Stop guessing.<br><span class="dim">Start understanding.</span></h2>
+  <p>AI-powered clinical reasoning — built as a portfolio MVP.</p>
+  <button class="cta-btn">View on GitHub</button>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 5</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const progress = document.getElementById('progress');
+const counter = document.getElementById('counter');
+let current = 0;
+const total = slides.length;
+
+function showSlide(index) {
+  slides.forEach(s => s.classList.remove('active'));
+  slides[index].classList.add('active');
+  progress.style.width = ((index + 1) / total * 100) + '%';
+  counter.textContent = (index + 1) + ' / ' + total;
+
+  // Slide 3: animate steps
+  if (index === 2) {
+    ['step1','step2','step3'].forEach((id, i) => {
+      setTimeout(() => document.getElementById(id).classList.add('visible'), 300 + i * 400);
+    });
+  } else {
+    ['step1','step2','step3'].forEach(id => document.getElementById(id).classList.remove('visible'));
+  }
+
+  // Slide 4: animate observations
+  if (index === 3) {
+    ['obs1','obs2','obs3'].forEach((id, i) => {
+      setTimeout(() => document.getElementById(id).classList.add('visible'), 400 + i * 350);
+    });
+  } else {
+    ['obs1','obs2','obs3'].forEach(id => document.getElementById(id).classList.remove('visible'));
+  }
+}
+
+// Auto-play: 4 seconds per slide
+let autoplay = setInterval(() => {
+  current = (current + 1) % total;
+  showSlide(current);
+}, 4000);
+
+// Click/key to advance
+document.addEventListener('click', () => {
+  clearInterval(autoplay);
+  current = (current + 1) % total;
+  showSlide(current);
+  autoplay = setInterval(() => {
+    current = (current + 1) % total;
+    showSlide(current);
+  }, 4000);
+});
+
+document.addEventListener('keydown', (e) => {
+  clearInterval(autoplay);
+  if (e.key === 'ArrowRight' || e.key === ' ') current = (current + 1) % total;
+  if (e.key === 'ArrowLeft') current = (current - 1 + total) % total;
+  showSlide(current);
+  autoplay = setInterval(() => {
+    current = (current + 1) % total;
+    showSlide(current);
+  }, 4000);
+});
+
+showSlide(0);
+</script>
+</body>
+</html>
