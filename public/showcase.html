@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second Opinion AI — Product Showcase</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#0a0a0a;color:#fff;overflow:hidden;width:1280px;height:720px}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s;padding:60px}
+.slide.active{opacity:1;transform:translateY(0)}
+
+/* Slide 1 — Hero */
+.s1{background:#fafafa;color:#1a1a1a}
+.s1 .dot{width:44px;height:44px;border-radius:50%;border:3px solid #2c3e34;display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.s1 .dot::after{content:'';width:7px;height:7px;border-radius:50%;background:#2c3e34}
+.s1 h1{font-size:60px;font-weight:600;letter-spacing:-3px;margin-bottom:14px}
+.s1 p{font-size:22px;color:#666;font-weight:300;margin-bottom:36px}
+.pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.pill{padding:7px 18px;border-radius:18px;background:rgba(44,62,52,.08);color:#2c3e34;font-size:12px;font-weight:600;font-family:ui-monospace,monospace}
+
+/* Slide 2 — Problem */
+.s2{background:#fafafa;color:#1a1a1a}
+.s2 .q{font-size:38px;font-weight:500;font-style:italic;font-family:'Times New Roman',serif;text-align:center;max-width:780px;line-height:1.3;letter-spacing:-1px;border-top:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;padding:44px 0}
+.s2 .stat-row{display:flex;gap:60px;margin-top:48px}
+.s2 .stat{text-align:center}
+.s2 .stat-num{font-size:48px;font-weight:700;color:#2c3e34;letter-spacing:-2px}
+.s2 .stat-label{font-size:13px;color:#999;text-transform:uppercase;letter-spacing:2px;margin-top:6px}
+
+/* Slide 3 — Laptop Mockup with intake */
+.s3{background:#fafafa;color:#1a1a1a;padding:40px 80px}
+.s3 .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:#2c3e34;margin-bottom:20px}
+.laptop{background:#1a1a1a;border-radius:16px;padding:8px;width:860px;box-shadow:0 20px 80px rgba(0,0,0,.15)}
+.laptop-bar{height:28px;background:#2a2a2a;border-radius:8px 8px 0 0;display:flex;align-items:center;padding:0 12px;gap:6px}
+.laptop-bar span{width:10px;height:10px;border-radius:50%;background:#444}
+.laptop-bar span:nth-child(1){background:#ff5f57}
+.laptop-bar span:nth-child(2){background:#ffbd2e}
+.laptop-bar span:nth-child(3){background:#28c840}
+.laptop-screen{background:#fafafa;border-radius:0 0 8px 8px;padding:40px 48px;min-height:400px}
+.screen-step{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:5px;color:#999;margin-bottom:10px}
+.screen-title{font-size:42px;font-weight:600;letter-spacing:-2px;margin-bottom:8px;color:#1a1a1a}
+.screen-sub{font-size:18px;color:#999;font-weight:300;margin-bottom:28px}
+.screen-input{border-left:3px solid rgba(44,62,52,.3);padding-left:20px;font-size:24px;color:#1a1a1a;font-weight:300;line-height:1.6;min-height:120px}
+.screen-input .cursor{display:inline-block;width:2px;height:24px;background:#2c3e34;animation:blink 1s infinite;vertical-align:text-bottom;margin-left:2px}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.screen-btn{display:inline-block;margin-top:28px;background:#1a1a1a;color:#fff;padding:14px 40px;border-radius:12px;font-size:16px;font-weight:600}
+
+/* Slide 4 — AI Analysis result mockup */
+.s4{background:#fafafa;color:#1a1a1a;padding:40px 80px}
+.s4 .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:#2c3e34;margin-bottom:20px}
+.result-card{background:#fff;border-radius:20px;padding:40px;box-shadow:0 4px 40px rgba(0,0,0,.06);width:860px}
+.result-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px}
+.result-badge{display:inline-block;padding:6px 14px;border-radius:8px;background:rgba(44,62,52,.08);color:#2c3e34;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.result-title{font-size:28px;font-weight:600;letter-spacing:-1.5px;margin-bottom:6px}
+.result-subtitle{font-size:15px;color:#999;font-weight:300;margin-bottom:28px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px solid #f0f0f0;padding-top:24px}
+.result-item{padding:16px;border-left:2px solid #2c3e34;opacity:0;transform:translateX(-12px);transition:opacity .5s,transform .5s}
+.result-item.v{opacity:1;transform:translateX(0)}
+.result-item h5{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#2c3e34;margin-bottom:6px}
+.result-item p{font-size:14px;color:#444;font-weight:300;line-height:1.5}
+
+/* Slide 5 — Architecture */
+.s5{background:#fafafa;color:#1a1a1a;padding:60px 100px;align-items:flex-start}
+.s5 h2{font-size:44px;font-weight:600;letter-spacing:-2px;margin-bottom:40px}
+.arch{display:flex;gap:24px;width:100%;justify-content:center}
+.arch-col{background:#fff;border-radius:16px;padding:28px;flex:1;box-shadow:0 2px 20px rgba(0,0,0,.04);opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+.arch-col.v{opacity:1;transform:translateY(0)}
+.arch-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#2c3e34;margin-bottom:16px}
+.arch-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.arch-col li{font-size:14px;color:#444;font-weight:300;padding-left:14px;border-left:2px solid #e0e0e0}
+.arch-arrow{display:flex;align-items:center;font-size:24px;color:#ccc;padding:0 4px}
+
+/* Slide 6 — Features Grid */
+.s6{background:#fafafa;color:#1a1a1a;padding:60px 80px;align-items:flex-start}
+.s6 h2{font-size:44px;font-weight:600;letter-spacing:-2px;margin-bottom:40px}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;width:100%}
+.feat{background:#fff;border-radius:16px;padding:28px;box-shadow:0 2px 20px rgba(0,0,0,.04);opacity:0;transform:scale(.95);transition:opacity .5s,transform .5s}
+.feat.v{opacity:1;transform:scale(1)}
+.feat .icon{font-size:28px;margin-bottom:12px}
+.feat h4{font-size:16px;font-weight:600;margin-bottom:6px;letter-spacing:-.5px}
+.feat p{font-size:13px;color:#666;font-weight:300;line-height:1.5}
+
+/* Slide 7 — CTA */
+.s7{background:#1a1a1a}
+.s7 h2{font-size:52px;font-weight:600;letter-spacing:-3px;margin-bottom:20px;text-align:center}
+.s7 .dim{color:#555}
+.s7 p{font-size:20px;color:#888;font-weight:300;margin-bottom:12px;text-align:center}
+.s7 .links{display:flex;gap:16px;margin-top:32px}
+.s7 .link-btn{padding:16px 40px;border-radius:50px;font-size:18px;font-weight:700;text-decoration:none;cursor:pointer;border:none}
+.s7 .primary{background:#fff;color:#1a1a1a;box-shadow:0 0 60px rgba(255,255,255,.08)}
+.s7 .secondary{background:transparent;color:#fff;border:1px solid #333}
+.s7 .author{margin-top:48px;font-size:13px;color:#444;font-family:ui-monospace,monospace}
+
+/* Progress */
+.progress{position:fixed;bottom:0;left:0;height:3px;background:#2c3e34;transition:width .3s;z-index:100}
+.counter{position:fixed;bottom:16px;right:32px;font-size:11px;color:rgba(255,255,255,.25);font-family:ui-monospace,monospace;z-index:100;mix-blend-mode:difference}
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide s1 active" id="sl1">
+  <div class="dot"></div>
+  <h1>Second Opinion AI</h1>
+  <p>Structured clinical reasoning when medical opinions conflict.</p>
+  <div class="pills">
+    <span class="pill">Next.js 16</span>
+    <span class="pill">React 19</span>
+    <span class="pill">GPT-4o mini</span>
+    <span class="pill">Tailwind CSS v4</span>
+    <span class="pill">TypeScript</span>
+    <span class="pill">Vercel</span>
+  </div>
+</div>
+
+<!-- Slide 2: Problem -->
+<div class="slide s2" id="sl2">
+  <div class="q">"Three specialists gave me three different answers.<br>I didn't know who to trust or what to do next."</div>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-num">88%</div><div class="stat-label">Patients want clarity</div></div>
+    <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Conflicting opinions avg.</div></div>
+    <div class="stat"><div class="stat-num">12 min</div><div class="stat-label">Avg. appointment time</div></div>
+  </div>
+</div>
+
+<!-- Slide 3: Intake mockup -->
+<div class="slide s3" id="sl3">
+  <div class="label">Multi-Step Intake Flow</div>
+  <div class="laptop">
+    <div class="laptop-bar"><span></span><span></span><span></span></div>
+    <div class="laptop-screen">
+      <div class="screen-step">Section 1 / 4</div>
+      <div class="screen-title">What's happening?</div>
+      <div class="screen-sub">Briefly describe your main concerns.</div>
+      <div class="screen-input">
+        <span id="typed"></span><span class="cursor"></span>
+      </div>
+      <div class="screen-btn">Continue</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: AI Result -->
+<div class="slide s4" id="sl4">
+  <div class="label">AI-Generated Clinical Brief</div>
+  <div class="result-card">
+    <div class="result-header">
+      <div>
+        <div class="result-title">Potential systemic inflammatory driver.</div>
+        <div class="result-subtitle">Based on symptom patterns, duration, and clinical history.</div>
+      </div>
+      <div class="result-badge">High Alignment</div>
+    </div>
+    <div class="result-grid">
+      <div class="result-item" id="r1"><h5>Observation</h5><p>Symptoms involve unrelated body systems — fatigue, joint pain, and dermatological changes.</p></div>
+      <div class="result-item" id="r2"><h5>Significance</h5><p>Multi-system involvement exceeds typical acute recovery and suggests systemic process.</p></div>
+      <div class="result-item" id="r3"><h5>Differential</h5><p>Autoimmune inflammatory process is most consistent with the full clinical pattern.</p></div>
+      <div class="result-item" id="r4"><h5>Next Step</h5><p>Targeted specialist referral based on persistent multisystem presentation.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Architecture -->
+<div class="slide s5" id="sl5">
+  <h2>Architecture</h2>
+  <div class="arch">
+    <div class="arch-col" id="a1">
+      <h4>Frontend</h4>
+      <ul>
+        <li>Next.js 16 App Router</li>
+        <li>React 19 Server Components</li>
+        <li>Tailwind CSS v4</li>
+        <li>Custom Entropy animation</li>
+        <li>RevealOnScroll observer</li>
+      </ul>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-col" id="a2">
+      <h4>API Layer</h4>
+      <ul>
+        <li>Route Handler /api/analyze</li>
+        <li>Structured JSON prompts</li>
+        <li>localStorage caching</li>
+        <li>Error fallback + retry</li>
+      </ul>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-col" id="a3">
+      <h4>AI Engine</h4>
+      <ul>
+        <li>OpenAI GPT-4o mini</li>
+        <li>Clinical reasoning prompt</li>
+        <li>JSON response parsing</li>
+        <li>Confidence scoring</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Features -->
+<div class="slide s6" id="sl6">
+  <h2>Key Features</h2>
+  <div class="feat-grid">
+    <div class="feat" id="f1"><div class="icon">⚡</div><h4>Real-Time AI Analysis</h4><p>GPT-4o mini generates structured clinical reasoning in seconds.</p></div>
+    <div class="feat" id="f2"><div class="icon">🧬</div><h4>Chaos → Clarity</h4><p>Custom Entropy particle animation visualizes the product metaphor.</p></div>
+    <div class="feat" id="f3"><div class="icon">📱</div><h4>Mobile-First</h4><p>Responsive design with burger menu, touch-optimized interactions.</p></div>
+    <div class="feat" id="f4"><div class="icon">♿</div><h4>Accessible</h4><p>WCAG contrast, aria-hidden decorative elements, reduced-motion.</p></div>
+    <div class="feat" id="f5"><div class="icon">💾</div><h4>Smart Caching</h4><p>localStorage caching prevents redundant API calls on page reload.</p></div>
+    <div class="feat" id="f6"><div class="icon">🖨️</div><h4>Print-Ready</h4><p>Export clinical briefs for doctor conversations with one click.</p></div>
+  </div>
+</div>
+
+<!-- Slide 7: CTA -->
+<div class="slide s7" id="sl7">
+  <h2>Stop guessing.<br><span class="dim">Start understanding.</span></h2>
+  <p>AI-powered clinical reasoning — built as a portfolio MVP.</p>
+  <p style="font-size:15px;color:#555">Next.js 16 · React 19 · GPT-4o mini · Tailwind v4 · TypeScript</p>
+  <div class="links">
+    <a href="https://second-opinion-ai-dusky.vercel.app" class="link-btn primary" style="text-decoration:none">Live Demo</a>
+    <a href="https://github.com/mksvlbv/second-opinion-ai" class="link-btn secondary" style="text-decoration:none">View Source</a>
+  </div>
+  <div class="author">Built by mksvlbv — AI First Product Builder</div>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 7</div>
+
+<script>
+const slides=document.querySelectorAll('.slide'),progress=document.getElementById('progress'),counter=document.getElementById('counter');
+let cur=0;const total=slides.length;
+
+// Typing effect
+const typedText="Fatigue for several months, joint pain, intermittent rash on extremities...";
+let charIdx=0,typedEl=null;
+
+function typeChar(){
+  if(!typedEl)typedEl=document.getElementById('typed');
+  if(charIdx<typedText.length){typedEl.textContent+=typedText[charIdx];charIdx++;setTimeout(typeChar,35+Math.random()*25)}
+}
+
+function showSlide(i){
+  slides.forEach(s=>s.classList.remove('active'));
+  slides[i].classList.add('active');
+  progress.style.width=((i+1)/total*100)+'%';
+  counter.textContent=(i+1)+' / '+total;
+
+  // Slide 3: typing
+  if(i===2){charIdx=0;if(typedEl)typedEl.textContent='';setTimeout(typeChar,600)}
+
+  // Slide 4: result items
+  ['r1','r2','r3','r4'].forEach((id,j)=>{
+    const el=document.getElementById(id);
+    if(i===3)setTimeout(()=>el.classList.add('v'),300+j*300);
+    else el.classList.remove('v');
+  });
+
+  // Slide 5: architecture columns
+  ['a1','a2','a3'].forEach((id,j)=>{
+    const el=document.getElementById(id);
+    if(i===4)setTimeout(()=>el.classList.add('v'),200+j*350);
+    else el.classList.remove('v');
+  });
+
+  // Slide 6: features
+  ['f1','f2','f3','f4','f5','f6'].forEach((id,j)=>{
+    const el=document.getElementById(id);
+    if(i===5)setTimeout(()=>el.classList.add('v'),150+j*150);
+    else el.classList.remove('v');
+  });
+}
+
+let auto=setInterval(()=>{cur=(cur+1)%total;showSlide(cur)},5000);
+function reset(){clearInterval(auto);auto=setInterval(()=>{cur=(cur+1)%total;showSlide(cur)},5000)}
+
+document.addEventListener('click',()=>{reset();cur=(cur+1)%total;showSlide(cur)});
+document.addEventListener('keydown',e=>{
+  reset();
+  if(e.key==='ArrowRight'||e.key===' ')cur=(cur+1)%total;
+  if(e.key==='ArrowLeft')cur=(cur-1+total)%total;
+  showSlide(cur);
+});
+
+showSlide(0);
+</script>
+</body>
+</html>
