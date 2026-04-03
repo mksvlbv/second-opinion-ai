@@ -29,7 +29,7 @@ export function Trust() {
               { label: "Logic", text: "Models trained on verified clinical datasets, identifying probabilities that general systems overlook." },
               { label: "Evidence", text: "Every finding is cross-referenced with PubMed literature and international clinical guidelines." },
               { label: "Security", text: "HIPAA-compliant isolation ensures your data remains private." },
-              { label: "Transparency", text: "Traceable paths. We provide the &apos;why&apos; behind every observation." }
+              { label: "Transparency", text: "Traceable paths. We provide the \u2018why\u2019 behind every observation." }
             ].map((item, i) => (
               <div key={i} className="flex flex-col text-left">
                 <span className="text-[11px] font-bold uppercase tracking-[0.5em] text-[#2c3e34] mb-4 md:mb-6">{item.label}</span>

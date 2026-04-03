@@ -12,6 +12,7 @@ export default function OnboardingPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false);
   const [loadingStage, setLoadingStage] = useState(0);
+  const [uploadStatus, setUploadStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [formData, setData] = useState({
     context: "",
     details: "",
@@ -76,22 +77,44 @@ export default function OnboardingPage() {
               onChange={(e) => setData({ ...formData, details: e.target.value })}
             />
           </div>
-          <label className="flex items-center gap-3 text-[#2c3e34] hover:text-black cursor-pointer transition-colors group">
+          <label className={`flex items-center gap-3 text-[#2c3e34] hover:text-black cursor-pointer transition-colors group ${uploadStatus === "loading" ? "pointer-events-none opacity-50" : ""}`}>
             <input
               type="file"
-              accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt"
+              accept=".pdf,.doc,.docx,.txt"
               className="hidden"
-              onChange={(e) => {
+              onChange={async (e) => {
                 const file = e.target.files?.[0];
-                if (file) {
-                  setData({ ...formData, details: formData.details + `\n[Attached: ${file.name}]` });
+                if (!file) return;
+                setUploadStatus("loading");
+                try {
+                  const fd = new FormData();
+                  fd.append("file", file);
+                  const res = await fetch("/api/parse-file", { method: "POST", body: fd });
+                  const data = await res.json();
+                  if (!res.ok) throw new Error(data.error || "Parse failed");
+                  setData((prev) => ({
+                    ...prev,
+                    details: prev.details + (prev.details ? "\n\n" : "") + `--- Content from ${file.name} ---\n${data.text}`,
+                  }));
+                  setUploadStatus("done");
+                } catch (err) {
+                  console.error("File parse error:", err);
+                  setUploadStatus("error");
                 }
+                // Reset input so same file can be re-uploaded
+                e.target.value = "";
               }}
             />
             <div className="w-8 h-8 rounded-full border border-[#2c3e34]/10 flex items-center justify-center group-hover:bg-[#e8ede9] transition-all">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              {uploadStatus === "loading" ? (
+                <div className="w-4 h-4 border border-neutral-300 border-t-[#2c3e34] rounded-full animate-spin" />
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              )}
             </div>
-            <span className="text-sm font-medium">Upload results (Optional)</span>
+            <span className="text-sm font-medium">
+              {uploadStatus === "loading" ? "Reading file..." : uploadStatus === "done" ? "File added ✓ Upload another" : uploadStatus === "error" ? "Failed — try again" : "Upload results (PDF, DOCX, TXT)"}
+            </span>
           </label>
         </div>
       ),
