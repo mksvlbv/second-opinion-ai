@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import mammoth from "mammoth";
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,8 +18,7 @@ export async function POST(req: NextRequest) {
     } else if (name.endsWith(".pdf")) {
       text = await extractPdfText(buffer);
     } else if (name.endsWith(".docx") || name.endsWith(".doc")) {
-      const result = await mammoth.extractRawText({ buffer });
-      text = result.value;
+      text = await extractDocxText(buffer);
     } else {
       return NextResponse.json(
         { error: "Unsupported file type. Use PDF, DOCX, or TXT." },
@@ -48,22 +45,34 @@ export async function POST(req: NextRequest) {
   }
 }
 
+async function extractDocxText(buffer: Buffer): Promise<string> {
+  const mammoth = await import("mammoth");
+  const result = await mammoth.default.extractRawText({ buffer });
+  return result.value;
+}
+
 async function extractPdfText(buffer: Buffer): Promise<string> {
-  const data = new Uint8Array(buffer);
-  const doc = await getDocument({ data, useSystemFonts: true }).promise;
-  const pages: string[] = [];
+  try {
+    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    const data = new Uint8Array(buffer);
+    const doc = await pdfjs.getDocument({ data, useSystemFonts: true }).promise;
+    const pages: string[] = [];
 
-  for (let i = 1; i <= doc.numPages; i++) {
-    const page = await doc.getPage(i);
-    const content = await page.getTextContent();
-    const strings: string[] = [];
-    for (const item of content.items) {
-      if ("str" in item && typeof item.str === "string") {
-        strings.push(item.str);
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      const strings: string[] = [];
+      for (const item of content.items) {
+        if ("str" in item && typeof item.str === "string") {
+          strings.push(item.str);
+        }
       }
+      pages.push(strings.join(" "));
     }
-    pages.push(strings.join(" "));
-  }
 
-  return pages.join("\n\n");
+    return pages.join("\n\n");
+  } catch (err) {
+    console.error("PDF parse fallback error:", err);
+    throw new Error("Could not parse PDF. Try converting to TXT or DOCX.");
+  }
 }
