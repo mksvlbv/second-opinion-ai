@@ -13,6 +13,7 @@ export default function OnboardingPage() {
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false);
   const [loadingStage, setLoadingStage] = useState(0);
   const [uploadStatus, setUploadStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [uploadError, setUploadError] = useState("");
   const [formData, setData] = useState({
     context: "",
     details: "",
@@ -80,25 +81,28 @@ export default function OnboardingPage() {
           <label className={`flex items-center gap-3 text-[#2c3e34] hover:text-black cursor-pointer transition-colors group ${uploadStatus === "loading" ? "pointer-events-none opacity-50" : ""}`}>
             <input
               type="file"
-              accept=".pdf,.doc,.docx,.txt"
+              accept=".doc,.docx,.txt"
               className="hidden"
               onChange={async (e) => {
                 const file = e.target.files?.[0];
                 if (!file) return;
                 setUploadStatus("loading");
+                setUploadError("");
                 try {
                   const fd = new FormData();
                   fd.append("file", file);
                   const res = await fetch("/api/parse-file", { method: "POST", body: fd });
                   const data = await res.json();
-                  if (!res.ok) throw new Error(data.error || "Parse failed");
+                  if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
                   setData((prev) => ({
                     ...prev,
                     details: prev.details + (prev.details ? "\n\n" : "") + `--- Content from ${file.name} ---\n${data.text}`,
                   }));
                   setUploadStatus("done");
                 } catch (err) {
-                  console.error("File parse error:", err);
+                  const msg = err instanceof Error ? err.message : "Unknown error";
+                  console.error("File parse error:", msg);
+                  setUploadError(msg);
                   setUploadStatus("error");
                 }
                 // Reset input so same file can be re-uploaded
@@ -113,7 +117,7 @@ export default function OnboardingPage() {
               )}
             </div>
             <span className="text-sm font-medium">
-              {uploadStatus === "loading" ? "Reading file..." : uploadStatus === "done" ? "File added ✓ Upload another" : uploadStatus === "error" ? "Failed — try again" : "Upload results (PDF, DOCX, TXT)"}
+              {uploadStatus === "loading" ? "Reading file..." : uploadStatus === "done" ? "File added ✓ Upload another" : uploadStatus === "error" ? `Failed: ${uploadError}` : "Upload results (PDF, DOCX, TXT)"}
             </span>
           </label>
         </div>
